@@ -10,7 +10,7 @@ from woker import Worker
 class GetBrandsURL:
 
     @staticmethod
-    def main(brand):
+    def main(brand: dict):
         print(f'start crawling {brand["brand"]}')
         url = brand['url_address']
         re = requests.get(url)
