@@ -7,7 +7,8 @@ class Common:
 
     @staticmethod
     def last_url(total_product):
-        """this function helps to get end of urls.
+        """
+        this function helps to get end of urls.
         for ex: https://rugs.rugstudio.com/newnav/96 ; 96 is returned by this function.
         """
         show_product_in_plp = 48
@@ -16,17 +17,17 @@ class Common:
 
     @staticmethod
     def number_of_product(soup):
-        """this function helps to find last pages of plp."""
-        total_product_string = soup.find_all(id='lblProductCountTop')
-        number_of_product = int(total_product_string[0].find_all('b')[1].text)
+        """
+        this function helps to find last pages of plp.
+        """
+        total_product_string = soup.find_all(class_='pageLink')
+        number_of_product = int(total_product_string[-1].text) * 48
         return number_of_product
 
     @staticmethod
     def get_url(plp_url):
-        url = plp_url.split('url=')
-        url = url[1].split('&')
-        url = url[0].replace('%3a', ':')
-        url = url.replace('%2f', '/')
+        main_url = 'https://www.rugs-direct.com'
+        url = f"{main_url}{plp_url['href']}"
         return url
 
     @staticmethod

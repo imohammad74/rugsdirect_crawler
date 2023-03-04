@@ -25,12 +25,12 @@ class GetAllBrandsURL:
                 plp_url = f"{main_url}/{url}"
             r = requests.get(plp_url)
             soup = BeautifulSoup(r.content, "html.parser")
-            a_tags = soup.find_all(class_='sli_title')
+            a_tags = soup.find_all(class_='rd-product-data')
             for pdp_url in a_tags:
                 current_time = int(now.strftime("%y%m%d"))
                 ss = BeautifulSoup(str(pdp_url), "html.parser")
-                el = ss.find(class_='h5 color-inherit', href=True)
-                clean_url = Common.get_url(el['href'])
+                el = ss.find(class_='style', href=True)
+                clean_url = Common.get_url(el)
                 db.insert_rows(db_file=db.db_file(), table_name=db.db_table()[0], log=False, columns=[
                     {
                         'column': 'url_address',
