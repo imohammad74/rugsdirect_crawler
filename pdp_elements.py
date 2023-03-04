@@ -1,8 +1,6 @@
 import os
-import re
 
 import requests
-from bs4 import BeautifulSoup
 
 from common import Common
 from table import Table
@@ -27,9 +25,8 @@ class PDPElements:
     @staticmethod
     def description(soup):
         desc = soup.find(class_='product-overview-data').text
-        print (desc)
+        print(desc)
         return desc
-
 
     @staticmethod
     def features_title(soup):
@@ -46,15 +43,9 @@ class PDPElements:
         return values
 
     def features(self, soup):
-        features = []
         titles = self.features_title(soup)
         values = self.feature_value(soup)
-        for i in range(len(titles)):
-            feature = {}
-            feature['title'] = titles[i]
-            feature['value'] = values[i]
-            features.append(feature)
-        print(features)
+        features = [{'title': titles[i], 'value': values[i]} for i in range(len(titles))]
         return features
 
     @staticmethod
@@ -88,6 +79,5 @@ class PDPElements:
             Common.design_id_pattern_ii(title=title, brand=title.split(' ')[0], collection_name=collection_name)
         else:
             return 'Not found'
-
 
 # todo:design id
