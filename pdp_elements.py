@@ -70,6 +70,12 @@ class PDPElements:
         else:
             return image_links
 
+    @staticmethod
+    def find_variant_url(soup: str, main_url: str):
+        content = soup.find_all('a', {'data-slide-id': "slide-ac"})
+        variant_url = list(set([f'{main_url}{url["href"]}' for url in content]))
+        return variant_url
+
     def design_id(self, soup, pattern_id: str):
         title = self.title(soup)
         collection_name = self.features(soup)['Collection']
