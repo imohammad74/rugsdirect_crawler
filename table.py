@@ -1,3 +1,6 @@
+from common import Common
+
+
 class Table:
 
     @staticmethod
@@ -6,9 +9,9 @@ class Table:
         variants = []
         for variant in price_table:
             variant_ = {
-                'msrp': variant['data-msrp'],
-                'price': variant['data-price'],
-                'product_name': variant['data-product-name']
+                'msrp': Common.clean_price(variant['data-msrp']),
+                'price': Common.clean_price(variant['data-price']),
+                'product_name': variant.find(class_='sizedesc').text
             }
             variants.append(variant_)
         return variants
