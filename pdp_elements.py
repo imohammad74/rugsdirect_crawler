@@ -32,14 +32,12 @@ class PDPElements:
     def features_title(soup):
         content = soup.find_all(class_='rug-features-left')
         titles = [title.text for title in content]
-        print(titles)
         return titles
 
     @staticmethod
     def feature_value(soup):
         content = soup.find_all(class_='rug-features-right')
         values = [value.text for value in content]
-        print(values)
         return values
 
     def features(self, soup):
@@ -76,14 +74,14 @@ class PDPElements:
         variant_url = list(set([f'{main_url}{url["href"]}' for url in content]))
         return variant_url
 
-    def design_id(self, soup, pattern_id: str):
-        title = self.title(soup)
-        collection_name = self.features(soup)['Collection']
-        if pattern_id == '1':
-            Common.design_id_pattern_i(title)
-        elif pattern_id == '2':
-            Common.design_id_pattern_ii(title=title, brand=title.split(' ')[0], collection_name=collection_name)
-        else:
-            return 'Not found'
+    def design_id(self, soup):
+        features = self.features(soup)
+        for feature in features:
+            if feature['title'] == 'Style ID':
+                design_id = feature['value']
+                return design_id
+            else:
+                return 'Not found'
 
-# todo:design id
+
+
