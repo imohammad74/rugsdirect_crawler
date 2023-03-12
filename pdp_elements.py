@@ -1,7 +1,6 @@
 import os
 
 import requests
-
 from common import Common
 from table import Table
 
@@ -83,5 +82,12 @@ class PDPElements:
             else:
                 return 'Not found'
 
-
-
+    @staticmethod
+    def shape_size(soup):
+        price_table = soup.find_all(class_='p-tile product_tile')
+        variants = []
+        for variant in price_table:
+            size = variant.find(class_='sizedesc').text
+            shape = Common.clean_size(size)
+            variants.append(size)
+        return variants
