@@ -100,3 +100,27 @@ class Common:
                                     columns=['seq'], condition="name='max_worker'")
         max_worker = int(max_worker[0][0])
         return max_worker
+
+    @staticmethod
+    def find_shape(size_string: str):
+        string_ = size_string.split(' ')
+        pattern = re.compile(r'^[a-zA-Z]+$')
+        shape = []
+        for item in string_:
+            if len(item) > 1 and pattern.match(item):
+                item = item.capitalize()
+                shape.append(item)
+        shape = 'Runner' if 'Runner' in shape else shape[0]
+        return shape
+
+    @staticmethod
+    def find_size(size_string: str):
+        string_ = size_string.split(' ')
+        pattern = re.compile(r'^[a-wyzA-WYZ]+$')
+        size = []
+        for item in string_:
+            if not pattern.match(item):
+                size.append(item)
+        seperator = ' '
+        size = seperator.join(size)
+        return size
