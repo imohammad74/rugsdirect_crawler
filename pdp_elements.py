@@ -86,8 +86,10 @@ class PDPElements:
     def shape_size(soup):
         price_table = soup.find_all(class_='p-tile product_tile')
         variants = []
-        for variant in price_table:
-            size = variant.find(class_='sizedesc').text
-            shape = Common.clean_size(size)
-            variants.append(size)
+        for item in price_table:
+            string = item.find(class_='sizedesc').text
+            size = Common.find_size(string)
+            shape = Common.find_shape(string)
+            variant = (size, shape)
+            variants.append(variant)
         return variants
