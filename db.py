@@ -11,7 +11,9 @@ class DBManagement:
 
     @staticmethod
     def db_table():
-        db_table = ['rugstudio_url', 'brands', 'pdp', 'no_data', 'sqlite_sequence', 'check_prices']
+        db_table = ['rugstudio_url', 'brands', 'pdp', 'no_data',
+                    'sqlite_sequence', 'check_prices', 'CheckPriceWithSource'
+                    ]
         return db_table
 
     @staticmethod
