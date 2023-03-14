@@ -2,7 +2,7 @@ import os
 
 import requests
 from common import Common
-from table import Table
+from table import PriceTable
 
 
 class PDPElements:
@@ -51,7 +51,7 @@ class PDPElements:
         main_url = 'https://www.rugstudio.com'
         image_links = [f'{main_url}{image.get("href")}' for image in images if '.aspx' not in image]
         cnt = 0
-        sku = Table.body(url, soup)[0]['Item #'].split('x')[0]
+        sku = PriceTable.body(url, soup)[0]['Item #'].split('x')[0]
         path = f'{sku}'
         if download_image:
             for image in image_links:
