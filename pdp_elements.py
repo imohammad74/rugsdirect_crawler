@@ -1,6 +1,7 @@
 import os
 
 import requests
+
 from common import Common
 from table import PriceTable
 
@@ -13,6 +14,12 @@ class PDPElements:
             return False
         else:
             return True
+
+    @staticmethod
+    def brand(soup):
+        """ get brand of product """
+        brand = soup.find(class_='rd-primary-link').text
+        return brand
 
     @staticmethod
     def title(soup):
