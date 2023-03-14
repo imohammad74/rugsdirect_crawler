@@ -11,8 +11,8 @@ class PDP:
     def main(url: str):
         r = requests.get(url)
         soup = BeautifulSoup(r.content, 'html.parser')
-        features = list(PDPElements().features(soup).keys())
-        feature_values = PDPElements.feature_value(soup)
+        # features = list(PDPElements().features(soup).keys())
+        # feature_values = PDPElements.feature_value(soup)
         variants = PriceTable.main(soup)
         brand = PDPElements.brand(soup)
         title = PDPElements.title(soup)
@@ -33,32 +33,12 @@ class PDP:
                 {'column': 'design_id', 'value': design_id},
                 {'column': 'sale_price', 'value': sale_price}
             ]
-
-            for feature in features:
-                feature_value = feature_values[features.index(feature)]
-                try:
-                    db.update_rows(db_file=db.db_file(), table_name=db.db_table()[2],
-                                   condition=f'design_id="{design_id}"',
-                                   columns=[{'column': f'{feature}', 'value': feature_value}])
-                except:
-                    db.update_rows(db_file=db.db_file(), table_name=db.db_table()[2],
-                                   condition=f'design_id="{design_id}"',
-                                   columns=[{'column': f'{feature}', 'value': ''}])
             try:
-                db.update_rows(db_file=db.db_file(), table_name=db.db_table()[2], condition=f'design_id="{design_id}"',
-                               columns=all_columns)
+                db.insert_rows(db_file=db.db_file(), table_name=db.db_table()[2], columns=all_columns)
             except:
-                db.update_rows(db_file=db.db_file(), table_name=db.db_table()[2], condition=f'design_id="{design_id}"',
-                               columns=all_columns)
-        print(f'"{title}" finish!')
-        else:
-            try:
                 db.insert_rows(db_file=db.db_file(), table_name=db.db_table()[3],
                                columns=[{'column': 'url', 'value': url}])
-            except:
-                db.insert_rows(db_file=db.db_file(), table_name=db.db_table()[3],
-                               columns=[{'column': 'url', 'value': ''}])
-            print('No data!')
+        print(f'"{title}" finish!')
 
     def __init__(self, url: str):
         self.main(url)
