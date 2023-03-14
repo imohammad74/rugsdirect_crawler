@@ -14,19 +14,21 @@ class PDP:
         features = list(PDPElements().features(soup).keys())
         feature_values = PDPElements.feature_value(soup)
         variants = PriceTable.main(soup)
+        brand = PDPElements.brand(soup)
+        title = PDPElements.title(soup)
+        description = PDPElements.description(soup)
+        design_id = PDPElements().design_id(soup)
+        # image_urls = PDPElements.images_product(url, soup, download_image=False)
         for variant in variants:
-            title = PDPElements.title(soup)
-            description = PDPElements.description(soup)
-            design_id = PDPElements().design_id(soup)
             size = PDPElements.shape_size(soup)[variants.index(variant)][0]
             msrp = variant['msrp']
             sale_price = variant['price']
-            # image_urls = PDPElements.images_product(url, soup, download_image=False)
             all_columns = [
                 {'column': 'title', 'value': title},
                 {'column': 'description', 'value': description},
                 {'column': 'url', 'value': url},
                 {'column': 'size', 'value': size},
+                {'column': 'brand', 'value': brand},
                 {'column': 'msrp', 'value': msrp},
                 {'column': 'design_id', 'value': design_id},
                 {'column': 'sale_price', 'value': sale_price}
