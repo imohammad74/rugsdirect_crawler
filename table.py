@@ -1,7 +1,7 @@
 from common import Common
 
 
-class Table:
+class PriceTable:
 
     @staticmethod
     def main(soup):
