@@ -1,11 +1,12 @@
 import requests
 from bs4 import BeautifulSoup
-from mail import Mail
+
 from check_price import CheckPrice
 from common import Common
 from db import DBManagement as db
 from get_all_brands_url import GetAllBrandsURL
 from get_brands_url import GetBrandsURL
+from mail import Mail
 from pdp import PDP
 from woker import Worker
 
@@ -22,7 +23,7 @@ class Main:
 
     @staticmethod
     def get_urls(all_brand):
-        url = "https://rugs.rugstudio.com/newnav/"
+        url = "https://www.rugs-direct.com/Store/nav/Category-Area-Rugs/"
         re = requests.get(url)
         soup = BeautifulSoup(re.content, "html.parser")
         params = {
@@ -49,11 +50,9 @@ class Main:
                                condition="name='rugstudio_url'")
         else:
             urls = db.fetch_datas(db_file=db.db_file(), table_name=db.db_table()[0], all_columns=False,
-                                  columns=['url_address'])
+                                  columns=['url_address', 'brand'])
             urls_ = [url[0] for url in urls]
-            Worker(fn=PDP, data=urls_, max_worker=max_worker)
-            # for url in urls:
-            #   PDP(url[0])
+            Worker(fn=PDP, data=urls, max_worker=max_worker)
 
     def __init__(self):
         while True:
@@ -70,7 +69,7 @@ class Main:
             elif select_option == '2':
                 self.get_urls(all_brand=False)
             elif select_option == '3':
-                Mail(attachment=False)
+                # Mail(attachment=False)
                 self.get_pdp(resume=False)
             elif select_option == '4':
                 Mail(attachment=False)
