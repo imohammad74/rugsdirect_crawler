@@ -133,3 +133,6 @@ dmypy.json
 *.xml
 *.iml
 *.db
+
+# python files
+mail.py
