@@ -9,7 +9,7 @@ from common import Common
 from db import DBManagement as db
 from mail import Mail
 from pdp_elements import PDPElements
-from table import Table
+from table import PriceTable
 from woker import Worker
 
 now = datetime.now()
@@ -54,7 +54,7 @@ class CheckPrice:
         r = requests.get(url)
         soup = BeautifulSoup(r.content, 'html.parser')
         if PDPElements.page_is_exist(soup):
-            variants = Table().body(url, soup)
+            variants = PriceTable.main(soup)
         else:
             return logging.warning('Table not found')
         for variant in variants:
