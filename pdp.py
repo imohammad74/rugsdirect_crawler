@@ -8,17 +8,22 @@ from table import PriceTable
 
 class PDP:
     @staticmethod
-    def main(url: str):
+    def main(data):
+        url = data[0]
+        brand = data[1]
         r = requests.get(url)
         soup = BeautifulSoup(r.content, 'html.parser')
-        # features = list(PDPElements().features(soup).keys())
-        # feature_values = PDPElements.feature_value(soup)
+        features = PDPElements().features(soup)
+        feature_values = PDPElements.feature_value(soup)
         variants = PriceTable.main(soup)
-        brand = PDPElements.brand(soup)
         title = PDPElements.title(soup)
+        collection = PDPElements().collection(soup)
         description = PDPElements.description(soup)
         design_id = PDPElements().design_id(soup)
+        construction = feature_values[(features.index('Construction'))]
+        material = feature_values[(features.index('Material'))]
         # image_urls = PDPElements.images_product(url, soup, download_image=False)
+
         for variant in variants:
             size = PDPElements.shape_size(soup)[variants.index(variant)][0]
             msrp = variant['msrp']
@@ -29,16 +34,21 @@ class PDP:
                 {'column': 'url', 'value': url},
                 {'column': 'size', 'value': size},
                 {'column': 'brand', 'value': brand},
+                {'column': 'weave', 'value': construction},
+                {'column': 'material', 'value': material},
                 {'column': 'msrp', 'value': msrp},
+                {'column': 'collection', 'value': collection},
                 {'column': 'design_id', 'value': design_id},
                 {'column': 'sale_price', 'value': sale_price}
             ]
             try:
                 db.insert_rows(db_file=db.db_file(), table_name=db.db_table()[2], columns=all_columns)
+                # print(all_columns)
             except:
                 db.insert_rows(db_file=db.db_file(), table_name=db.db_table()[3],
                                columns=[{'column': 'url', 'value': url}])
+            # print('error')
         print(f'"{title}" finish!')
 
-    def __init__(self, url: str):
-        self.main(url)
+    def __init__(self, data):
+        self.main(data)
