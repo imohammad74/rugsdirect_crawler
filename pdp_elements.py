@@ -18,14 +18,14 @@ class PDPElements:
     @staticmethod
     def brand(soup):
         """ get brand of product """
-        brand = soup.find(class_='rd-primary-link').text
+        brand = soup.find(class_='pdp-vendor')
+        print(brand)
         return brand
 
     @staticmethod
     def title(soup):
         """get title of pdp"""
         title = soup.find(class_='pdp-title').text
-        print(title)
         return title
 
     @staticmethod
@@ -100,3 +100,9 @@ class PDPElements:
             variant = (size, shape)
             variants.append(variant)
         return variants
+
+    def collection(self, soup):
+        """ get collection name"""
+        collection_string = self.title(soup).split('-')
+        collection = collection_string[0]
+        return collection
