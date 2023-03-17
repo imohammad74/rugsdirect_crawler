@@ -51,8 +51,11 @@ class Main:
         else:
             urls = db.fetch_datas(db_file=db.db_file(), table_name=db.db_table()[0], all_columns=False,
                                   columns=['url_address', 'brand'])
-            urls_ = [url[0] for url in urls]
-            Worker(fn=PDP, data=urls, max_worker=max_worker)
+            for url in urls:
+                PDP(url)
+
+            # urls_ = [url[0] for url in urls]
+            # Worker(fn=PDP, data=urls_, max_worker=max_worker)
 
     def __init__(self):
         while True:

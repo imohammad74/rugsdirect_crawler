@@ -1,6 +1,8 @@
+import random
+
 import requests
 from bs4 import BeautifulSoup
-
+import time
 from db import DBManagement as db
 from pdp_elements import PDPElements
 from table import PriceTable
@@ -13,7 +15,7 @@ class PDP:
         brand = data[1]
         r = requests.get(url)
         soup = BeautifulSoup(r.content, 'html.parser')
-        features = PDPElements().features(soup)
+        features = PDPElements().features_title(soup)
         feature_values = PDPElements.feature_value(soup)
         variants = PriceTable.main(soup)
         title = PDPElements.title(soup)
@@ -22,8 +24,6 @@ class PDP:
         design_id = PDPElements().design_id(soup)
         construction = feature_values[(features.index('Construction'))]
         material = feature_values[(features.index('Material'))]
-        # image_urls = PDPElements.images_product(url, soup, download_image=False)
-
         for variant in variants:
             size = PDPElements.shape_size(soup)[variants.index(variant)][0]
             msrp = variant['msrp']
@@ -47,8 +47,10 @@ class PDP:
             except:
                 db.insert_rows(db_file=db.db_file(), table_name=db.db_table()[3],
                                columns=[{'column': 'url', 'value': url}])
-            # print('error')
+                # print('error')
         print(f'"{title}" finish!')
 
     def __init__(self, data):
+        random_time = random.randint(1, 2)
+        time.sleep(random_time)
         self.main(data)
