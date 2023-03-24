@@ -124,8 +124,8 @@ class DBManagement:
             columns_names = tuple([column['column'] for column in columns])
             columns_values = tuple([column['value'] if not None else "" for column in columns])
         else:
-            columns_names = f'("{columns[0]["column"]}")'
-            columns_values = f'("{columns[0]["value"]}")'
+            columns_names = f"('{columns[0]['column']}')"
+            columns_values = f"('{columns[0]['value']}')"
         try:
             conn = sqlite3.connect(db_file)
             c = conn.cursor()
@@ -138,6 +138,14 @@ class DBManagement:
                     print(f'{"All rows added." if len(columns_names) > 1 else "Row added."}')
             except Error as e:
                 print(e)
+                if 'url' in columns_names:
+                    url_index = columns_names.index('url')
+                    url = columns_values[url_index]
+                    error_msg = e
+                    query = f'''INSERT INTO NoData (URLAddress, ErrorMsg) VALUES ('{url}', '{error_msg}')'''
+                print(query)
+                c.execute(query)
+                conn.commit()
         except Error as e:
             print(e)
         finally:
@@ -253,7 +261,8 @@ class DBManagement:
 
     @staticmethod
     def custom_query(db_file: str, query: str):
-        """Copy a column to another that
+        """
+        Copy a column to another that
         example: custom_query(db_file= db.db_file, query="SELECT last_price, new_price,
         (CASE WHEN (new_price-last_price)=0 THEN NULL ELSE 0 END) as 'is_warning' FROM check_prices;"
         """
