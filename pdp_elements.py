@@ -31,7 +31,6 @@ class PDPElements:
     @staticmethod
     def description(soup):
         desc = soup.find(class_='product-overview-data').text
-        print(desc)
         return desc
 
     @staticmethod
