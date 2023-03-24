@@ -1,8 +1,9 @@
 import random
+import time
 
 import requests
 from bs4 import BeautifulSoup
-import time
+
 from db import DBManagement as db
 from pdp_elements import PDPElements
 from table import PriceTable
@@ -12,6 +13,7 @@ class PDP:
     @staticmethod
     def main(data):
         url = data[0]
+        print(url)
         brand = data[1]
         r = requests.get(url)
         soup = BeautifulSoup(r.content, 'html.parser')
@@ -51,6 +53,6 @@ class PDP:
         print(f'"{title}" finish!')
 
     def __init__(self, data):
-        random_time = random.randint(1, 2)
-        time.sleep(random_time)
+        # random_time = random.randint(2, 4)
+        time.sleep(2)
         self.main(data)
