@@ -17,7 +17,7 @@ class Main:
     @staticmethod
     def find_last_crawled_url():
         last_url = db.fetch_datas(db_file=db.db_file(), table_name=db.db_table()[4], all_columns=False,
-                                  columns=['seq'], condition="name='rugstudio_url'")
+                                  columns=['seq'], condition="name='URLs'")
         last_url = int(last_url[0][0])
         return last_url
 
@@ -40,14 +40,17 @@ class Main:
         max_worker = Common.max_worker()
         if resume:
             last_url_id = self.find_last_crawled_url()
+            print(last_url_id)
             urls = db.fetch_datas(db_file=db.db_file(), table_name=db.db_table()[0], all_columns=False,
                                   columns=['url_address'])
             total_url = len(urls)
+            print(total_url)
             for i in range(last_url_id, total_url):
+                print(i)
                 PDP(urls[i][0])
                 db.update_rows(db_file=db.db_file(), table_name=db.db_table()[4],
                                columns=[{'column': 'seq', 'value': i}],
-                               condition="name='rugstudio_url'")
+                               condition="name='URLs'")
         else:
             urls = db.fetch_datas(db_file=db.db_file(), table_name=db.db_table()[0], all_columns=False,
                                   columns=['url_address', 'brand'])
@@ -75,7 +78,7 @@ class Main:
                 # Mail(attachment=False)
                 self.get_pdp(resume=False)
             elif select_option == '4':
-                Mail(attachment=False)
+                # Mail(attachment=False)
                 self.get_pdp(resume=True)
             elif select_option == '5':
                 Mail(attachment=True)
