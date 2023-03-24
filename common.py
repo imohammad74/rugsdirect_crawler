@@ -114,7 +114,7 @@ class Common:
         return shape
 
     @staticmethod
-    def find_size(size_string: str):
+    def find_size(size_string: str) -> str:
         string_ = size_string.split(' ')
         pattern = re.compile(r'^[a-wyzA-WYZ]+$')
         size = []
@@ -123,4 +123,7 @@ class Common:
                 size.append(item)
         seperator = ' '
         size = seperator.join(size)
+        size = size.replace(" ", "")
+        size = size.replace("'", "")
+        size = size.replace("\"", "")
         return size
