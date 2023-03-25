@@ -1,3 +1,5 @@
+import time
+
 import requests
 from bs4 import BeautifulSoup
 
@@ -13,10 +15,11 @@ class GetBrandsURL:
     def main(brand: dict):
         print(f'start crawling {brand["brand"]}')
         url = brand['url_address']
+        brand = brand["brand"]
         re = requests.get(url)
         soup = BeautifulSoup(re.content, "html.parser")
         params = {
-            'brand': brand["brand"],
+            'brand': brand,
             'url': url,
             're': re,
             'soup': soup
@@ -26,9 +29,8 @@ class GetBrandsURL:
     def __init__(self):
         max_worker = Common.max_worker()
         brands_url = db.fetch_datas(db_file=db.db_file(), table_name=db.db_table()[1], all_columns=True)
-        brands = []
         for i in range(len(brands_url)):
             brand = {'brand': brands_url[i][1], 'url_address': brands_url[i][2]}
-            brands.append(brand)
-        Worker(fn=self.main, data=brands, max_worker=max_worker)
-        # self.main()
+            self.main(brand)
+            time.sleep(2)
+        # Worker(fn=self.main, data=brands, max_worker=max_worker)
