@@ -16,8 +16,8 @@ class PDP:
         r = requests.get(url)
         soup = BeautifulSoup(r.content, 'html.parser')
         if PDPElements.is_in_stock(soup):
-            features = Common.remove_quotes(PDPElements().features_title(soup))
-            feature_values = Common.remove_quotes(PDPElements.feature_value(soup))
+            features = PDPElements().features_title(soup)
+            feature_values = PDPElements.feature_value(soup)
             variants = PriceTable.main(soup)
             title = Common.remove_quotes(PDPElements.title(soup))
             collection = Common.remove_quotes(PDPElements().collection(soup))
