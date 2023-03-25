@@ -124,11 +124,13 @@ class DBManagement:
             columns_names = tuple([column['column'] for column in columns])
             columns_values = tuple([column['value'] if not None else "" for column in columns])
         else:
-            columns_names = f"('{columns[0]['column']}')"
-            columns_values = f"('{columns[0]['value']}')"
+            columns_names = f'("{columns[0]["column"]}")'
+            columns_values = f'("{columns[0]["value"]}")'
         try:
             conn = sqlite3.connect(db_file)
             c = conn.cursor()
+            query = f'''INSERT INTO {table_name} {columns_names} VALUES {columns_values}'''
+            print(query)
             try:
                 query = f'''INSERT INTO {table_name} {columns_names} VALUES {columns_values}'''
                 c.execute(query)
@@ -227,8 +229,6 @@ class DBManagement:
                 c.execute(query)
                 conn.commit()
                 datas = c.fetchall()
-                # print(datas)
-                # print('fetch datas.')
                 return datas
             except Error as e:
                 print(e)
