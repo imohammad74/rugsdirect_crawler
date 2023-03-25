@@ -18,7 +18,7 @@ class PDP:
         if PDPElements.is_in_stock(soup):
             features = Common.remove_quotes(PDPElements().features_title(soup))
             feature_values = Common.remove_quotes(PDPElements.feature_value(soup))
-            variants = Common.remove_quotes(PriceTable.main(soup))
+            variants = PriceTable.main(soup)
             title = Common.remove_quotes(PDPElements.title(soup))
             collection = Common.remove_quotes(PDPElements().collection(soup))
             description = Common.remove_quotes(PDPElements.description(soup))
