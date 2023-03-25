@@ -12,7 +12,7 @@ from woker import Worker
 
 
 class Main:
-    print('Welcome to Rugstudio Crawler')
+    print('Welcome to RugsDirect Crawler')
 
     @staticmethod
     def find_last_crawled_url():
