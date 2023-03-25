@@ -16,6 +16,13 @@ class PDPElements:
             return True
 
     @staticmethod
+    def is_in_stock(soup):
+        if soup.find(class_='pdp-title'):
+            return True
+        else:
+            return False
+
+    @staticmethod
     def brand(soup):
         """ get brand of product """
         brand = soup.find(class_='pdp-vendor')
