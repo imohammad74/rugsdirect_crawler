@@ -127,3 +127,11 @@ class Common:
         size = size.replace("'", "")
         size = size.replace("\"", "")
         return size
+
+    @staticmethod
+    def remove_quotes(string: str) -> str:
+        """
+        Removes single quotes and double quotes from a string.
+        """
+        clean_string = string.replace("'", "").replace('"', '')
+        return clean_string
