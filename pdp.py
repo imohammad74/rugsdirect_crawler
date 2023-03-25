@@ -4,6 +4,7 @@ from bs4 import BeautifulSoup
 from db import DBManagement as db
 from pdp_elements import PDPElements
 from table import PriceTable
+from common import Common
 
 
 class PDP:
@@ -15,15 +16,15 @@ class PDP:
         r = requests.get(url)
         soup = BeautifulSoup(r.content, 'html.parser')
         if PDPElements.is_in_stock(soup):
-            features = PDPElements().features_title(soup)
-            feature_values = PDPElements.feature_value(soup)
-            variants = PriceTable.main(soup)
-            title = PDPElements.title(soup)
-            collection = PDPElements().collection(soup)
-            description = PDPElements.description(soup)
-            design_id = PDPElements().design_id(soup)
-            construction = feature_values[(features.index('Construction'))]
-            material = feature_values[(features.index('Material'))]
+            features = Common.remove_quotes(PDPElements().features_title(soup))
+            feature_values = Common.remove_quotes(PDPElements.feature_value(soup))
+            variants = Common.remove_quotes(PriceTable.main(soup))
+            title = Common.remove_quotes(PDPElements.title(soup))
+            collection = Common.remove_quotes(PDPElements().collection(soup))
+            description = Common.remove_quotes(PDPElements.description(soup))
+            design_id = Common.remove_quotes(PDPElements().design_id(soup))
+            construction = Common.remove_quotes(feature_values[(features.index('Construction'))])
+            material = Common.remove_quotes(feature_values[(features.index('Material'))])
             for variant in variants:
                 size = PDPElements.shape_size(soup)[variants.index(variant)][0]
                 msrp = variant['msrp']
