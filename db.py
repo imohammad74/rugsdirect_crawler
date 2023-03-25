@@ -130,7 +130,6 @@ class DBManagement:
             conn = sqlite3.connect(db_file)
             c = conn.cursor()
             query = f'''INSERT INTO {table_name} {columns_names} VALUES {columns_values}'''
-            print(query)
             try:
                 query = f'''INSERT INTO {table_name} {columns_names} VALUES {columns_values}'''
                 c.execute(query)
@@ -145,7 +144,6 @@ class DBManagement:
                     url = columns_values[url_index]
                     error_msg = e
                     query = f'''INSERT INTO NoData (URLAddress, ErrorMsg) VALUES ('{url}', '{error_msg}')'''
-                print(query)
                 c.execute(query)
                 conn.commit()
         except Error as e:
