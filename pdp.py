@@ -1,9 +1,6 @@
-import random
 import time
-
 import requests
 from bs4 import BeautifulSoup
-
 from db import DBManagement as db
 from pdp_elements import PDPElements
 from table import PriceTable
@@ -58,6 +55,5 @@ class PDP:
             db.custom_query(db_file=db.db_file(), query=query)
 
     def __init__(self, data):
-        # random_time = random.randint(2, 4)
         time.sleep(2)
         self.main(data)
