@@ -8,7 +8,6 @@ from get_all_brands_url import GetAllBrandsURL
 from get_brands_url import GetBrandsURL
 from mail import Mail
 from pdp import PDP
-from woker import Worker
 
 
 class Main:
@@ -42,12 +41,12 @@ class Main:
             last_url_id = self.find_last_crawled_url()
             print(last_url_id)
             urls = db.fetch_datas(db_file=db.db_file(), table_name=db.db_table()[0], all_columns=False,
-                                  columns=['url_address'])
+                                  columns=['url_address', 'brand'])
             total_url = len(urls)
             print(total_url)
             for i in range(last_url_id, total_url):
                 print(i)
-                PDP(urls[i][0])
+                PDP(urls[i])
                 db.update_rows(db_file=db.db_file(), table_name=db.db_table()[4],
                                columns=[{'column': 'seq', 'value': i}],
                                condition="name='URLs'")
