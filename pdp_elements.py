@@ -9,50 +9,52 @@ from table import PriceTable
 class PDPElements:
 
     @staticmethod
-    def page_is_exist(soup):
+    def page_is_exist(soup) -> bool:
         if soup.find(class_='OneColumn _404'):
             return False
         else:
             return True
 
     @staticmethod
-    def is_in_stock(soup):
+    def is_in_stock(soup) -> bool:
         if soup.find(class_='pdp-title'):
             return True
         else:
             return False
 
     @staticmethod
-    def brand(soup):
+    def brand(soup) -> str:
         """ get brand of product """
         brand = soup.find(class_='pdp-vendor')
-        print(brand)
+        brand = Common.remove_quotes(brand)
         return brand
 
     @staticmethod
-    def title(soup):
+    def title(soup) -> str:
         """get title of pdp"""
         title = soup.find(class_='pdp-title').text
+        title = Common.remove_quotes(title)
         return title
 
     @staticmethod
-    def description(soup):
+    def description(soup) -> str:
         desc = soup.find(class_='product-overview-data').text
+        desc = Common.remove_quotes(desc)
         return desc
 
     @staticmethod
-    def features_title(soup):
+    def features_title(soup) -> list:
         content = soup.find_all(class_='rug-features-left')
-        titles = [title.text for title in content]
+        titles = [Common.remove_quotes(title.text) for title in content]
         return titles
 
     @staticmethod
-    def feature_value(soup):
+    def feature_value(soup) -> list:
         content = soup.find_all(class_='rug-features-right')
-        values = [value.text for value in content]
+        values = [Common.remove_quotes(value.text) for value in content]
         return values
 
-    def features(self, soup):
+    def features(self, soup) -> list:
         titles = self.features_title(soup)
         values = self.feature_value(soup)
         features = [{'title': titles[i], 'value': values[i]} for i in range(len(titles))]
@@ -81,22 +83,22 @@ class PDPElements:
             return image_links
 
     @staticmethod
-    def find_variant_url(soup: str, main_url: str):
+    def find_variant_url(soup: str, main_url: str) -> list:
         content = soup.find_all('a', {'data-slide-id': "slide-ac"})
         variant_url = list(set([f'{main_url}{url["href"]}' for url in content]))
         return variant_url
 
-    def design_id(self, soup):
+    def design_id(self, soup) -> str:
         features = self.features(soup)
         for feature in features:
             if feature['title'] == 'Style ID':
-                design_id = feature['value']
+                design_id = Common.remove_quotes(feature['value'])
                 return design_id
             else:
                 return 'Not found'
 
     @staticmethod
-    def shape_size(soup):
+    def shape_size(soup) -> tuple:
         price_table = soup.find_all(class_='p-tile product_tile')
         variants = []
         for item in price_table:
@@ -107,8 +109,10 @@ class PDPElements:
             variants.append(variant)
         return variants
 
-    def collection(self, soup):
+    def collection(self, soup) -> str:
         """ get collection name"""
         collection_string = self.title(soup).split('-')
         collection = collection_string[0]
+        collection = Common.remove_quotes(collection)
+        collection = collection.strip()
         return collection
