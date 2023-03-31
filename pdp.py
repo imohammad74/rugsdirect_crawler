@@ -1,10 +1,11 @@
 import time
+
 import requests
 from bs4 import BeautifulSoup
+
 from db import DBManagement as db
 from pdp_elements import PDPElements
 from table import PriceTable
-from common import Common
 
 
 class PDP:
@@ -16,24 +17,65 @@ class PDP:
         r = requests.get(url)
         soup = BeautifulSoup(r.content, 'html.parser')
         if PDPElements.is_in_stock(soup):
-            features = PDPElements().features_title(soup)
-            feature_values = PDPElements.feature_value(soup)
-            variants = PriceTable.main(soup)
-            title = Common.remove_quotes(PDPElements.title(soup))
-            collection = Common.remove_quotes(PDPElements().collection(soup))
-            description = Common.remove_quotes(PDPElements.description(soup))
-            design_id = Common.remove_quotes(PDPElements().design_id(soup))
-            construction = Common.remove_quotes(feature_values[(features.index('Construction'))])
-            material = Common.remove_quotes(feature_values[(features.index('Material'))])
+            try:
+                features = PDPElements().features_title(soup)
+            except:
+                features = []
+            try:
+                feature_values = PDPElements.feature_value(soup)
+            except:
+                feature_values = []
+            try:
+                variants = PriceTable.main(soup)
+            except:
+                variants = []
+            try:
+                title = PDPElements.title(soup)
+            except:
+                title = ''
+            try:
+                collection = PDPElements().collection(soup)
+            except:
+                collection = ''
+            try:
+                description = PDPElements.description(soup)
+            except:
+                description = ''
+            try:
+                design_id = PDPElements().design_id(soup)
+            except:
+                design_id = ''
+            try:
+                construction = feature_values[(features.index('Construction'))]
+            except:
+                construction = ''
+            try:
+                material = feature_values[(features.index('Material'))]
+            except:
+                material = ''
             for variant in variants:
-                size = PDPElements.shape_size(soup)[variants.index(variant)][0]
-                msrp = variant['msrp']
-                sale_price = variant['price']
+                try:
+                    size = PDPElements.shape_size(soup)[variants.index(variant)][0]
+                except:
+                    size = ''
+                try:
+                    shape = PDPElements.shape_size(soup)[variants.index(variant)][1]
+                except:
+                    shape = ''
+                try:
+                    msrp = variant['msrp']
+                except:
+                    msrp = ''
+                try:
+                    sale_price = variant['price']
+                except:
+                    sale_price = ''
                 all_columns = [
                     {'column': 'title', 'value': title},
                     {'column': 'description', 'value': description},
                     {'column': 'url', 'value': url},
                     {'column': 'size', 'value': size},
+                    {'column': 'shape', 'value': shape},
                     {'column': 'brand', 'value': brand},
                     {'column': 'weave', 'value': construction},
                     {'column': 'material', 'value': material},
