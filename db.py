@@ -194,7 +194,7 @@ class DBManagement:
                 conn.close()
 
     @staticmethod
-    def fetch_datas(db_file: str, table_name: str, all_columns: bool, **kwargs):  # columns: list, condition: s tr
+    def fetch_datas(db_file: str, table_name: str, all_columns: bool, **kwargs) -> list:
         """
         fetch data from table
 
