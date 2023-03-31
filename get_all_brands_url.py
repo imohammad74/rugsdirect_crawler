@@ -1,3 +1,4 @@
+import time
 from datetime import datetime
 
 import requests
@@ -23,6 +24,7 @@ class GetAllBrandsURL:
                 plp_url = main_url
             else:
                 plp_url = f"{main_url}/{url}"
+            time.sleep(2)
             r = requests.get(plp_url)
             soup = BeautifulSoup(r.content, "html.parser")
             a_tags = soup.find_all(class_='rd-product-data')
