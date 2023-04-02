@@ -13,7 +13,6 @@ class PDP:
     @staticmethod
     def main(data):
         url = data[0]
-        print(url)
         brand = data[1]
         r = requests.get(url)
         soup = BeautifulSoup(r.content, 'html.parser')
