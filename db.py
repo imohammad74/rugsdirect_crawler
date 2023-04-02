@@ -270,7 +270,6 @@ class DBManagement:
             c = conn.cursor()
             try:
                 query = f'''{query} '''
-                print(query)
                 c.execute(query)
                 conn.commit()
             except Error as e:
