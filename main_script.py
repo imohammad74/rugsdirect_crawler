@@ -53,7 +53,9 @@ class Main:
         else:
             urls = db.fetch_datas(db_file=db.db_file(), table_name=db.db_table()[0], all_columns=False,
                                   columns=['url_address', 'brand'])
+            total_urls = len(urls)
             for url in urls:
+                print(f'{urls.index(url)} of {total_urls} | {url}')
                 PDP(url)
 
             # urls_ = [url[0] for url in urls]
