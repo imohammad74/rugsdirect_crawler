@@ -124,8 +124,8 @@ class Common:
         seperator = ' '
         size = seperator.join(size)
         size = size.replace(" ", "")
-        size = size.replace("'", "")
-        size = size.replace("\"", "")
+        size = size.replace("'", "-")
+        size = size.replace('"', "+")
         return size
 
     @staticmethod
@@ -135,3 +135,13 @@ class Common:
         """
         clean_string = string.replace("'", "").replace('"', '')
         return clean_string
+
+    @staticmethod
+    def sql_replace() -> tuple:
+        """
+        after complete insert data to database, run it and current the size column.
+        :return: replace string in a tuple
+        """
+        to_double_quote = """UPDATE PDP SET size = REPLACE(size, '+', '"')"""
+        to_single_quote = """UPDATE PDP SET size = REPLACE(size, '-', "'")"""
+        return to_single_quote, to_double_quote
