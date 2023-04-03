@@ -55,8 +55,10 @@ class Main:
                                   columns=['url_address', 'brand'])
             total_urls = len(urls)
             for url in urls:
-                print(f'{urls.index(url)} of {total_urls} | {url}')
+                print(f'{urls.index(url)+1} of {total_urls} | {url[0]}')
                 PDP(url)
+        db.custom_query(db_file=db.db_file(), query=Common.sql_replace()[0])
+        db.custom_query(db_file=db.db_file(), query=Common.sql_replace()[1])
 
             # urls_ = [url[0] for url in urls]
             # Worker(fn=PDP, data=urls_, max_worker=max_worker)
