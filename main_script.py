@@ -36,7 +36,6 @@ class Main:
             GetBrandsURL()
 
     def get_pdp(self, resume: bool):
-        max_worker = Common.max_worker()
         if resume:
             last_url_id = self.find_last_crawled_url()
             print(last_url_id)
@@ -55,11 +54,10 @@ class Main:
                                   columns=['url_address', 'brand'])
             total_urls = len(urls)
             for url in urls:
-                print(f'{urls.index(url)} of {total_urls} | {url}')
+                print(f'{urls.index(url)+1} of {total_urls} | {url[0]}')
                 PDP(url)
-
-            # urls_ = [url[0] for url in urls]
-            # Worker(fn=PDP, data=urls_, max_worker=max_worker)
+        db.custom_query(db_file=db.db_file(), query=Common.sql_replace(table_name=db.db_table()[2])[0])
+        db.custom_query(db_file=db.db_file(), query=Common.sql_replace(table_name=db.db_table()[2])[1])
 
     def __init__(self):
         while True:

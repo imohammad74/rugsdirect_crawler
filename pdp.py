@@ -96,8 +96,7 @@ class PDP:
             print('Product is out of stock')
             query = f'''INSERT INTO NoData (URLAddress, ErrorMsg) VALUES ('{url}', 'Out of stock')'''
             db.custom_query(db_file=db.db_file(), query=query)
-        db.custom_query(db_file=db.db_file(), query=Common.sql_replace()[0])
-        db.custom_query(db_file=db.db_file(), query=Common.sql_replace()[1])
+
 
     def __init__(self, data):
         time.sleep(2)
