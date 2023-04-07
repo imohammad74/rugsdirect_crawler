@@ -137,11 +137,11 @@ class Common:
         return clean_string
 
     @staticmethod
-    def sql_replace() -> tuple:
+    def sql_replace(table_name) -> tuple:
         """
         after complete insert data to database, run it and current the size column.
         :return: replace string in a tuple
         """
-        to_double_quote = """UPDATE PDP SET size = REPLACE(size, '+', '"')"""
-        to_single_quote = """UPDATE PDP SET size = REPLACE(size, '-', "'")"""
+        to_double_quote = f"""UPDATE {table_name} SET size = REPLACE(size, '+', '"')"""
+        to_single_quote = f"""UPDATE {table_name} SET size = REPLACE(size, '-', "'")"""
         return to_single_quote, to_double_quote
